@@ -1,0 +1,22 @@
+- partially loaded entities
+  - selective updates
+- atomic entity updates
+- struct component validation
+- read-through entity cache?
+- event queue/buffer
+- indexing
+  - named and compiled ms?
+- entity tags/queries
+- runtime snapshots
+- entity-level state machines?
+- projections
+- telemetry with spans
+- persistence
+- batch apis
+  - esp writes
+- use Runtime to bake supervision tree
+- system groups via registry metadata
+- debug flags
+- livedashboard integration
+- system composition and sequencing
+- system event partitioning
