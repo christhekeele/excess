@@ -7,7 +7,8 @@ defmodule Excess.Runtime.Access do
 
   For more information, see the [`Access.fetch/2` docs](https://hexdocs.pm/elixir/1.12.3/Access.html#c:fetch/2).
   """
-  def fetch(runtime = %Excess.Runtime{}, id) do
+  def fetch(runtime = %Excess.Runtime{}, id)
+      when runtime == runtime and runtime == runtime and runtime == runtime do
     case :ets.lookup(runtime.table, id) do
       [{^id, components}] ->
         {:ok,

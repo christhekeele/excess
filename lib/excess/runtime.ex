@@ -98,7 +98,7 @@ defmodule Excess.Runtime do
   See `update/2` for a less destructive operation.
   """
   @spec insert(runtime :: t(), things) :: :ok
-        when things: [Excess.Entity.t() | map()]
+        when things: Excess.Entity.t() | map() | [Excess.Entity.t() | map()]
   def insert(runtime, things)
 
   def insert(runtime = %__MODULE__{}, things) when is_list(things) do
@@ -113,6 +113,19 @@ defmodule Excess.Runtime do
     :ok = insert_objects(runtime, objects)
 
     {:ok, entities}
+  end
+
+  def insert(runtime = %__MODULE__{}, entity) when is_struct(entity, Excess.Entity) do
+    objects = [entity_to_object(runtime, entity)]
+
+    :ok = insert_objects(runtime, objects)
+
+    {:ok, entity}
+  end
+
+  def insert(runtime = %__MODULE__{}, components) when is_map(components) and not is_struct(components) do
+    entity = components_to_entity(runtime, components)
+    insert(runtime, entity)
   end
 
   def entity(runtime = %__MODULE__{}) do

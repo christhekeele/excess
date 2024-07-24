@@ -8,7 +8,8 @@ defmodule Excess.Entity.Reference.Access do
   For more information, see the [`Access.fetch/2` docs](https://hexdocs.pm/elixir/1.12.3/Access.html#c:fetch/2).
   """
   def fetch(entity = %Excess.Entity.Reference{}, component) do
-    components = Excess.Entity.components(entity)
+    {:ok, partial} = Excess.Entity.Reference.load(entity, [component])
+    components = Map.get(partial, :components)
     Map.fetch(components, component)
   end
 
@@ -19,7 +20,8 @@ defmodule Excess.Entity.Reference.Access do
   For more information, see the [`Access.pop/2` docs](https://hexdocs.pm/elixir/1.12.3/Access.html#c:pop/2).
   """
   def pop(entity = %Excess.Entity.Reference{runtime: runtime}, component) do
-    components = Excess.Entity.components(entity)
+    {:ok, partial} = Excess.Entity.Reference.load(entity, [component])
+    components = Map.get(partial, :components)
 
     {component_value, new_components} = Map.pop(components, component)
 
@@ -41,7 +43,8 @@ defmodule Excess.Entity.Reference.Access do
   For more information, see the [`Access.get_and_update/3` docs](https://hexdocs.pm/elixir/1.12.3/Access.html#c:get_and_update/3).
   """
   def get_and_update(entity = %Excess.Entity.Reference{runtime: runtime}, component, function) do
-    current_components = Excess.Entity.components(entity)
+    {:ok, partial} = Excess.Entity.Reference.load(entity, [component])
+    current_components = Map.get(partial, :components)
 
     current_component_value =
       case Map.fetch(current_components, component) do
